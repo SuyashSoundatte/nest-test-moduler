@@ -1,17 +1,18 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ModulesModule } from './modules/modules.module';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
+import { DatabaseModule } from './common/providers/database/database.module';
+import { LoggerModule } from 'nestjs-pino';
+import { LoggerConfig } from './common/logger/logger-config';
 
 @Module({
   imports: [
-    ModulesModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    LoggerModule.forRoot(LoggerConfig),
+    ModulesModule,
     CommonModule,
+    DatabaseModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

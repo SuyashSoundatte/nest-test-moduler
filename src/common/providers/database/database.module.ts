@@ -1,10 +1,8 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { PostgresDataSource } from './database';
+import { Global, Module } from '@nestjs/common';
+import { PostgresService } from './postgres.service';
 
+@Global()
 @Module({
-  imports: [ConfigModule],
-  providers: [PostgresDataSource],
-  exports: [PostgresDataSource],
+  exports: [PostgresService],
 })
 export class DatabaseModule {}
