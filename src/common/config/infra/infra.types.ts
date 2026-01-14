@@ -1,8 +1,5 @@
 export interface DatabaseConfig {
-  host: string;
-  port: number;
-  name: string;
-  poolSize: number;
+  url: string;
 }
 
 export interface InfrastructureConfig {
