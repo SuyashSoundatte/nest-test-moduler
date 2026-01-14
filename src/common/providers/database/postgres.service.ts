@@ -62,7 +62,9 @@ export class PostgresService implements OnModuleInit, OnModuleDestroy {
 
   /* ── GRACEFUL SHUTDOWN ──────────────────────── */
   async onModuleDestroy() {
-    await this.pool.end();
-    this.logger.log('PostgreSQL pool closed 🛑🛑🛑');
+    if (this.pool) {
+      this.logger.log('Closing PostgreSQL pool...');
+      await this.pool.end();
+    }
   }
 }
