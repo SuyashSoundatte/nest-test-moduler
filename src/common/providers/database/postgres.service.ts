@@ -15,6 +15,7 @@ export class PostgresService implements OnModuleInit, OnModuleDestroy {
   constructor(private readonly config: ConfigService) {
     this.pool = new Pool({
       connectionString: this.config.get<string>('POSTGRES_URL'),
+      ssl: { rejectUnauthorized: false },
       max: 10,
       idleTimeoutMillis: 10_000,
       connectionTimeoutMillis: 5_000,
