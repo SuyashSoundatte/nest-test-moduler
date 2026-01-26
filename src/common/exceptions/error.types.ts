@@ -14,12 +14,12 @@ export enum ErrorCategory {
   EXTERNAL_SERVICE = 'EXTERNAL_SERVICE',
 }
 
-export interface ErrorMetadata {
+export interface ErrorMetadata<T = unknown> {
   timestamp: Date;
   errorId: string;
   severity: ErrorSeverity;
   category: ErrorCategory;
-  additionalData?: Record<string, any>;
+  additionalData?: T;
 }
 
 export interface ErrorResponse {

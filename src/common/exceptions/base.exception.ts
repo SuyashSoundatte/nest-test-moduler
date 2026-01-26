@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus } from "@nestjs/common";
 import { ErrorCategory, ErrorMetadata, ErrorResponse, ErrorSeverity } from "./error.types";
 
-export abstract class BaseException extends HttpException {
+export abstract class BaseException<T = unknown > extends HttpException {
   public readonly errorCode: string;
-  public readonly metadata: ErrorMetadata;
+  public readonly metadata: ErrorMetadata<T>;
 
   constructor(
     errorCode: string,
@@ -12,7 +12,7 @@ export abstract class BaseException extends HttpException {
     statusCode: HttpStatus,
     severity: ErrorSeverity,
     category: ErrorCategory,
-    additionalData?: Record<string, any>,
+    additionalData?: T,
   ) {
     super(userMessage, statusCode);
     

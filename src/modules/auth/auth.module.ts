@@ -1,4 +1,17 @@
 import { Module } from '@nestjs/common';
+import { AuthController } from './auth.controller';
+import { AuthService } from './auth.service';
+import { JwtModule } from '@nestjs/jwt';
 
-@Module({})
+@Module({
+  imports: [
+    JwtModule.register({
+      global: true,
+      secret: 'SuperSecretKey',
+      signOptions: { expiresIn: '1D' },
+    }),
+  ],
+  controllers: [AuthController],
+  providers: [AuthService],
+})
 export class AuthModule {}
