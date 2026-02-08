@@ -14,7 +14,7 @@ users{
 organizations{
   id int
   name string
-  code string unique
+  code string 
   email string
   contact_phone number
   is_active bool
@@ -23,8 +23,8 @@ organizations{
   address1 string
   address2 string
 
-  academic_year_start
-  academic_year_end
+  academic_year_start date
+  academic_year_end date
 
   owner_id int
 }
