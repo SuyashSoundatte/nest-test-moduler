@@ -1,0 +1,277 @@
+users{
+  id int
+  name string 
+  username string unique
+  email string
+  password string
+  phone number 
+  is_active bool
+
+  profile_photo_id int 
+  org_id int 
+  branch_id int 
+}
+
+orgnizations{
+  id int 
+  name string unique
+  code string unique
+  is_active bool
+
+  owner_id int
+}
+
+organization_branches{
+  id int 
+  name string 
+  code string 
+  email string 
+  contact_phone number 
+  is_active bool
+  city string
+  address1 string
+  address2 string
+  academic_year_start
+  academic_year_end
+
+  org_id int  
+  owner_id int
+}
+
+students{
+  id int 
+  full_name string
+  system_roll_no string
+  academy_roll_no string 
+  prn string
+  stream enum
+  gender string 
+  dob date
+  category string
+  religion string
+  nationality string 
+  prev_school string 
+  prev_school_boards string
+
+  user_id int 
+}
+
+parents{
+  id int 
+  mother_name stirng
+  mother_phone stirng
+  father_name stirng
+  father_phone string
+  mother_occupation string
+  father_occupation string
+
+  student_id int
+}
+
+fees{
+  id int
+  total_fee int
+  discounted_fee int 
+  paid_amount int 
+
+  student_id int
+  org_id int 
+  branch_id int 
+}
+
+fee_receipts{
+  id int 
+  installment_no int
+  installment_date date
+  payment_mode enum
+  recipt_no int 
+  remarks string
+  total_amount int 
+  is_cancelled bool 
+
+  org_id int 
+  branch_id int 
+  fee_id int
+}
+
+roles{
+  id int 
+  name string
+}
+
+user_roles{
+  id int
+
+  role_id int
+  user_id int
+}
+
+streams{
+  id int
+  code enum
+  display_name string 
+
+  org_id int 
+  branch_id int // streams are org-wide or branch-wide? 
+}
+
+class{
+  id int 
+  system_code string
+  display_name string
+  is_active bool
+
+  org_id int
+  branch_id int 
+  stream_id int
+}
+
+batches{
+  id int
+  name string 
+  is_active bool
+
+  branch_id int 
+  class_id int 
+  stream_id int 
+  org_id int 
+}
+
+student_batches{
+  id int
+  joined_at date 
+  left_at date 
+
+  student_id int
+  batch_id int 
+  org_id int 
+  branch_id int 
+}
+
+exams{
+  id int 
+  name string
+  exam_type enum
+  exam_date date 
+  exam_mode enum
+  start_time date
+  end_time date 
+  max_marks int 
+  status enum 
+  syllabus text
+  visibility enum
+
+  created_by_id int 
+  batch_id int
+  org_id int 
+  branch_id int 
+}
+
+exam_marks{
+  id int 
+  marks_obtained int 
+  remarks int 
+  is_absent bool 
+
+  enter_by_id int 
+  student_id int
+  exam_id int 
+}
+
+documents {
+  id int 
+  s3_key string 
+  original_filename string 
+  is_deleted bool 
+  mime_type string
+
+  verified_by_id int
+  doc_type_id int 
+  user_id int 
+  uploaded_by_id int 
+}
+
+document_types{
+  id int 
+  display_name string 
+  is_mandatory bool 
+  allowed_formats string[]
+  slug string
+
+  org_id int
+  branch_id int 
+  created_by_id int 
+}
+
+attendance_days{
+  id int 
+  attendance_date date
+  
+  batch_id int
+  marked_by_id int 
+  org_id int 
+  branch_id int 
+}
+
+attendace_records{
+  id int 
+  status enum 
+  
+  attendance_day_id int 
+  student_id int 
+  branch_id int
+  org_id int 
+}
+
+users.id > orgnizations.owner_id
+users.org_id > orgnizations.id
+users.branch_id > organization_branches.id
+users.id > organization_branches.owner_id
+users.id - students.user_id
+students.id > parents.student_id
+users.id <> user_roles.user_id
+user_roles.role_id <> roles.id
+students.id < fees.student_id
+fees.id < fee_receipts.fee_id
+fees.org_id <> orgnizations.id
+fees.branch_id <> organization_branches.id
+fee_receipts.org_id <> orgnizations.id
+fee_receipts.branch_id <> organization_branches.id
+class.stream_id > streams.id
+orgnizations.id < organization_branches.org_id
+orgnizations.id < streams.org_id
+organization_branches.id < streams.branch_id
+orgnizations.id < class.org_id
+organization_branches.id < class.branch_id
+orgnizations.id < batches.org_id
+organization_branches.id < batches.branch_id
+streams.id < batches.stream_id
+class.id < batches.class_id
+batches.id < exams.batch_id
+orgnizations.id < exams.org_id
+organization_branches.id < exams.branch_id
+exams.id < exam_marks.exam_id
+students.id < exam_marks.student_id
+users.id < exam_marks.enter_by_id
+document_types.id < documents.doc_type_id
+users.id < documents.user_id
+users.id < documents.uploaded_by_id
+orgnizations.id < document_types.org_id
+organization_branches.id < document_types.branch_id
+users.id < document_types.created_by_id
+orgnizations.id < attendance_days.org_id
+organization_branches.id < attendance_days.branch_id
+users.id < attendance_days.marked_by_id
+attendance_days.id < attendace_records.attendance_day_id
+students.id < attendace_records.student_id
+orgnizations.id < attendace_records.org_id
+organization_branches.id < attendace_records.branch_id
+roles.id < user_roles.role_id
+documents.id < users.profile_photo_id
+streams.id < students.stream_id
+class.id < students.class_id
+users.id < parents.user_id
+users.id < fees.created_by_id
+users.id < fees.updated_by_id
+users.id < fee_receipts.collected_by_id
+users.id < exam_marks.enter_by_id
