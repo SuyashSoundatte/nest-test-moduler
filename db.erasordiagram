@@ -1,0 +1,253 @@
+users{
+  id int
+  name string
+  username string unique
+  email string
+  password string
+  phone number
+  is_active bool
+
+  profile_photo_id int
+  org_id int
+}
+
+organizations{
+  id int
+  name string
+  code string unique
+  email string
+  contact_phone number
+  is_active bool
+
+  city string
+  address1 string
+  address2 string
+
+  academic_year_start
+  academic_year_end
+
+  owner_id int
+}
+
+students{
+  id int
+  full_name string
+
+  system_roll_no string
+  academy_roll_no string
+  prn string
+
+  stream enum
+  gender string
+  dob date
+
+  category string
+  religion string
+  nationality string
+  prev_school string
+  prev_school_boards string
+
+  user_id int
+  org_id int
+}
+
+parents{
+  id int
+  mother_name string
+  mother_phone string
+  father_name string
+  father_phone string
+  mother_occupation string
+  father_occupation string
+
+  student_id int
+}
+
+roles{
+  id int
+  name string
+}
+
+user_roles{
+  id int
+  user_id int
+  role_id int
+}
+
+streams{
+  id int
+  code enum
+  display_name string
+
+  org_id int
+}
+
+class{
+  id int
+  system_code string
+  display_name string
+  is_active bool
+
+  stream_id int
+  org_id int
+}
+
+batches{
+  id int
+  name string
+  is_active bool
+
+  class_id int
+  stream_id int
+  org_id int
+}
+
+student_batches{
+  id int
+  joined_at date
+  left_at date
+
+  student_id int
+  batch_id int
+  org_id int
+}
+
+fees{
+  id int
+  total_fee int
+  discounted_fee int
+  paid_amount int
+
+  student_id int
+  org_id int
+}
+
+fee_receipts{
+  id int
+  installment_no int
+  installment_date date
+  payment_mode enum
+  receipt_no int
+  remarks string
+  total_amount int
+  is_cancelled bool
+
+  fee_id int
+  org_id int
+}
+
+exams{
+  id int
+  name string
+  exam_type enum
+  exam_date date
+  exam_mode enum
+  start_time
+  end_time
+  max_marks int
+  status enum
+  visibility enum
+  syllabus text
+
+  created_by_id int
+  batch_id int
+  org_id int
+}
+
+exam_marks{
+  id int
+  marks_obtained int
+  remarks string
+  is_absent bool
+
+  entered_by_id int
+  student_id int
+  exam_id int
+}
+
+attendance_days{
+  id int
+  attendance_date date
+
+  batch_id int
+  marked_by_id int
+  org_id int
+}
+
+attendance_records{
+  id int
+  status enum
+
+  attendance_day_id int
+  student_id int
+  org_id int
+}
+
+documents{
+  id int
+  s3_key string
+  original_filename string
+  mime_type string
+  is_deleted bool
+
+  verified_by_id int
+  doc_type_id int
+  user_id int
+  uploaded_by_id int
+}
+
+document_types{
+  id int
+  display_name string
+  slug string
+  is_mandatory bool
+  allowed_formats string[]
+
+  org_id int
+  created_by_id int
+}
+
+users.id > organizations.owner_id
+users.org_id > organizations.id
+users.id <> roles.id
+user_roles.user_id > users.id
+user_roles.role_id > roles.id
+users.id > students.user_id
+organizations.id < students.org_id
+students.id < parents.student_id
+organizations.id < streams.org_id
+streams.id < class.stream_id
+organizations.id < class.org_id
+class.id < batches.class_id
+streams.id < batches.stream_id
+organizations.id < batches.org_id
+students.id <> batches.id
+student_batches.student_id > students.id
+student_batches.batch_id > batches.id
+organizations.id < student_batches.org_id
+batches.id < exams.batch_id
+organizations.id < exams.org_id
+users.id > exams.created_by_id
+exams.id < exam_marks.exam_id
+students.id < exam_marks.student_id
+users.id > exam_marks.entered_by_id
+batches.id < attendance_days.batch_id
+users.id > attendance_days.marked_by_id
+organizations.id < attendance_days.org_id
+
+attendance_days.id < attendance_records.attendance_day_id
+students.id < attendance_records.student_id
+organizations.id < attendance_records.org_id
+students.id < fees.student_id
+organizations.id < fees.org_id
+
+fees.id < fee_receipts.fee_id
+organizations.id < fee_receipts.org_id
+document_types.id < documents.doc_type_id
+users.id < documents.user_id
+users.id < documents.uploaded_by_id
+users.id > documents.verified_by_id
+
+organizations.id < document_types.org_id
+users.id > document_types.created_by_id
+documents.id > users.profile_photo_id
