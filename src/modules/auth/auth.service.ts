@@ -7,21 +7,23 @@ import { JwtService } from '@nestjs/jwt';
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
 
-  async login(loginDTO: LoginDTO){
-    if(loginDTO.username != "admin" && loginDTO.password != "1234"){
-      throw new InvalidCredentialsException(loginDTO.username);
+  async login(loginDTO: LoginDTO) {
+    if (loginDTO.email != 'admin@gmail.com' && loginDTO.password != '1234') {
+      throw new InvalidCredentialsException(loginDTO.email);
     }
 
     const payload = {
       userId: 1,
-      userName: loginDTO.username,
-      role: ["SuperAdmin"]
-    }
+      orgId: 1,
+      branchId: 1,
+      role: ['SuperAdmin'],
+    };
 
     const token = await this.jwtService.signAsync(payload);
-    return { 
-      message: "Login successfully",
-      access_token: token
+
+    return {
+      message: 'Login successfully',
+      token: token,
     };
   }
 }

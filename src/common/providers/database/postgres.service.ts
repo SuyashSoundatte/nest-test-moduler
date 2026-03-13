@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  Logger,
-  OnModuleDestroy,
-  OnModuleInit,
-} from '@nestjs/common';
+import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Pool, PoolClient, QueryConfig, QueryResult, QueryResultRow } from 'pg';
 
@@ -14,7 +9,7 @@ export class PostgresService implements OnModuleInit, OnModuleDestroy {
 
   constructor(private readonly config: ConfigService) {
     this.pool = new Pool({
-      connectionString: this.config.get<string>('POSTGRES_URL'),
+      connectionString: this.config.getOrThrow<string>('POSTGRES_URL'),
       ssl: { rejectUnauthorized: false },
       max: 10,
       idleTimeoutMillis: 10_000,

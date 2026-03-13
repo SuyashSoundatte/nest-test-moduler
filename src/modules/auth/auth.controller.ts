@@ -8,8 +8,17 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  login(@Body() loginDTO: LoginDTO){
-
+  login(@Body() loginDTO: LoginDTO) {
     return this.authService.login(loginDTO);
+  }
+
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  logout() {
+    return {
+      success: true,
+      data: null,
+      message: 'Logout Successfully',
+    };
   }
 }

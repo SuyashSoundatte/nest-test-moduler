@@ -4,5 +4,7 @@ import { z } from 'zod';
 export const InfraEnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'staging', 'production']),
 
-  POSTGRES_URL: z.string()
+  POSTGRES_URL: z.string(),
+  JWT_SECRET: z.string(),
+  JWT_EXPIRES_IN: z.string(),
 });
