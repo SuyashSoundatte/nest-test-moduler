@@ -8,7 +8,7 @@ export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
 
   async login(loginDTO: LoginDTO) {
-    if (loginDTO.email != 'admin@gmail.com' && loginDTO.password != '1234') {
+    if (loginDTO.email != 'admin@gmail.com' || loginDTO.password != '1234') {
       throw new InvalidCredentialsException(loginDTO.email);
     }
 
