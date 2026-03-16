@@ -1,5 +1,6 @@
 import { defineConfig } from 'vitest/config';
 import swc from 'unplugin-swc';
+import path from 'path';
 
 export default defineConfig({
   plugins: [
@@ -16,6 +17,15 @@ export default defineConfig({
       },
     }),
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@common': path.resolve(__dirname, './src/common'),
+      '@modules': path.resolve(__dirname, './src/modules'),
+      '@config': path.resolve(__dirname, './src/common/config'),
+      '@db': path.resolve(__dirname, './db'),
+    },
+  },
   test: {
     globals: true,
     environment: 'node',
