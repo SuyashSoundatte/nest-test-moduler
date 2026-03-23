@@ -19,3 +19,10 @@ export class PasswordHashService {
     return argon2.verify(hashedPass, plainPass);
   }
 }
+
+// async function f(){
+//   const obj = new PasswordHashService();
+//   const result = await obj.hash("P@ss1234");
+//   console.log(result);
+// }
+// f();

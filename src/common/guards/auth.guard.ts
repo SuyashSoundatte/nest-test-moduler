@@ -7,9 +7,10 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { FastifyRequest } from 'fastify';
 
-export interface AuthRequest extends Request {
-  headers: Request['headers'] & { authorization?: string };
+export interface AuthRequest extends FastifyRequest {
+  user?: any;
 }
 
 @Injectable()
@@ -22,7 +23,7 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest<AuthRequest>();
+    const request = context.switchToHttp().getRequest<FastifyRequest>();
     const token = this.extractTokenFromHeader(request);
 
     if (!token) {

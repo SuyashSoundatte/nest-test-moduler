@@ -3,11 +3,12 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { OrganizationModule } from './organization/organization.module';
 import { OragnizationController } from './organization/oragnization.controller';
-import { OrgnizationService } from './organization/orgnization.service';
+import { PlatformModule } from './platform/platform.module';
+import { OnboardingModule } from './onboarding/onboarding.module';
 
 @Module({
-  imports: [UserModule, AuthModule, OrganizationModule],
+  imports: [UserModule, AuthModule, OrganizationModule, PlatformModule, OnboardingModule],
   controllers: [OragnizationController],
-  providers: [OrgnizationService],
+  providers: [],
 })
 export class ModulesModule {}
